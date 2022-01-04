@@ -17,16 +17,16 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     lead
   end
 
-  context 'when message contains "av._ibirapuera,_2453._moema"' do
-    before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._ibirapuera,_2453._moema' }
+  context 'when message contains "av._ibirapuera,_2453_-_moema"' do
+    before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._ibirapuera,_2453_-_moema' }
 
     it 'returns source name' do
       expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema Loja 1')
     end
   end
 
-  context 'when message contains "av._ibirapuera,_3000._moema"' do
-    before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._ibirapuera,_3000._moema' }
+  context 'when message contains "av._ibirapuera,_3000_-_moema"' do
+    before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._ibirapuera,_3000_-_moema' }
 
     it 'returns source name' do
       expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema Loja 2')

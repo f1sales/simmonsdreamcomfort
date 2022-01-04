@@ -12,9 +12,9 @@ module Simmonsdreamcomfort
       message = lead.message
       source_name = lead.source ? lead.source.name : ''
 
-      if message.include?('av._ibirapuera,_2453._moema')
+      if message.include?('av._ibirapuera,_2453_-_moema')
         "#{source_name} - Moema Loja 1"
-      elsif message.include?('av._ibirapuera,_3000._moema')
+      elsif message.include?('av._ibirapuera,_3000_-_moema')
         "#{source_name} - Moema Loja 2"
       elsif message.include?('av._corifeu_de_azevedo_marques,_549_-_butantã')
         "#{source_name} - Corifeu"
