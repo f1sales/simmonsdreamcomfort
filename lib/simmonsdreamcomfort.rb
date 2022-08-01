@@ -21,7 +21,7 @@ module Simmonsdreamcomfort
       elsif message.include?('av._braz_leme,_757_-_santana')
         "#{source_name} - Braz Leme"
       else
-        lead.source.name
+        source_name
       end
     end
   end

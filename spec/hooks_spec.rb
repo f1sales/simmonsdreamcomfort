@@ -64,4 +64,12 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort')
     end
   end
+
+  context 'when source is nil' do
+    before { lead.source = nil }
+
+    it 'return source name' do
+      expect(described_class.switch_source(lead)).to eq('')
+    end
+  end
 end
