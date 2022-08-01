@@ -9,7 +9,7 @@ module Simmonsdreamcomfort
 
   class F1SalesCustom::Hooks::Lead
     def self.switch_source(lead)
-      message = lead.message
+      message = lead.message || ''
       source_name = lead.source ? lead.source.name : ''
 
       if message.include?('av._ibirapuera,_2453_-_moema') || message.include?('av._ibirapuera,_2.453_-_moema')
