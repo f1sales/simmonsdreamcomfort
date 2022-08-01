@@ -18,6 +18,8 @@ module Simmonsdreamcomfort
         "#{source_name} - Moema Loja 2"
       elsif message.include?('av._corifeu_de_azevedo_marques,_549_-_butantã')
         "#{source_name} - Corifeu"
+      elsif message.include?('av._braz_leme,_757_-_santana')
+        "#{source_name} - Braz Leme"
       else
         lead.source.name
       end

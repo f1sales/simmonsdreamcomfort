@@ -48,4 +48,12 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Corifeu')
     end
   end
+
+  context 'when message contains "av._braz_leme,_757_-_santana"' do
+    before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._braz_leme,_757_-_santana' }
+
+    it 'returns source name' do
+      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Braz Leme')
+    end
+  end
 end

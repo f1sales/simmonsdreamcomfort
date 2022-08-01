@@ -46,6 +46,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
   byebug
@@ -57,4 +58,4 @@ DEPENDENCIES
   simmonsdreamcomfort!
 
 BUNDLED WITH
-   2.2.19
+   2.3.10
