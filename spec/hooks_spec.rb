@@ -57,6 +57,14 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     end
   end
 
+  context 'when message contains "av._braz_leme,_757_-_santana"' do
+    before { lead.message = 'conditional_question_1: Santana; conditional_question_2: Av. Braz Leme, 757 - Santana, São Paulo - SP' }
+
+    it 'returns source name' do
+      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Braz Leme')
+    end
+  end
+
   context 'when message is nil' do
     before { lead.message = nil }
 
