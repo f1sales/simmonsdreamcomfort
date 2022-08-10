@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-require_relative "simmonsdreamcomfort/version"
-
-require "f1sales_custom/hooks"
+require_relative 'simmonsdreamcomfort/version'
+require 'f1sales_custom/hooks'
 
 module Simmonsdreamcomfort
   class Error < StandardError; end
