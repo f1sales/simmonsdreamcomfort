@@ -65,6 +65,14 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     end
   end
 
+  context 'when message contains sumare' do
+    before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: perdizes_-_av_sumare,_1101_- dream_comfort' }
+
+    it 'return source name' do
+      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Sumaré')
+    end
+  end
+
   context 'when message is nil' do
     before { lead.message = nil }
 
