@@ -12,7 +12,11 @@ module Simmonsdreamcomfort
         @message = lead.message || ''
         source_name = lead.source ? lead.source.name : ''
 
-        return "#{source_name} - Moema" if moema?
+        return "#{source_name} - Moema 1" if moema_1?
+
+        return "#{source_name} - Moema 2" if moema_2?
+
+        return "#{source_name} - Moema 3" if moema_3?
 
         return "#{source_name} - Corifeu" if corifeu?
 
@@ -23,8 +27,16 @@ module Simmonsdreamcomfort
         source_name
       end
 
-      def moema?
-        @message[moema_address[0]] || @message[moema_address[1]] || @message[moema_address[2]] || @message[moema_address[3]]
+      def moema_1?
+        @message[moema_address[0]] || @message[moema_address[1]]
+      end
+
+      def moema_2?
+        @message[moema_address[2]]
+      end
+
+      def moema_3?
+        @message[moema_address[3]]
       end
 
       def moema_address
