@@ -24,7 +24,7 @@ module Simmonsdreamcomfort
       end
 
       def moema?
-        @message[moema_address[0]] || @message[moema_address[1]] || @message[moema_address[2]]
+        @message[moema_address[0]] || @message[moema_address[1]] || @message[moema_address[2]] || @message[moema_address[3]]
       end
 
       def moema_address
@@ -32,6 +32,7 @@ module Simmonsdreamcomfort
           av._ibirapuera,_2453_-_moema
           av._ibirapuera,_2.453_-_moema
           av._ibirapuera,_3000_-_moema
+          av._ibirapuera,_3399_-_moema
         ]
       end
 
