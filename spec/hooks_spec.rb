@@ -10,9 +10,17 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     source
   end
 
+  let(:product) do
+    product = OpenStruct.new
+    product.name = ''
+
+    product
+  end
+
   let(:lead) do
     lead = OpenStruct.new
     lead.source = source
+    lead.product = product
 
     lead
   end
@@ -21,7 +29,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._ibirapuera,_2453_-_moema' }
 
     it 'returns source name' do
-      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema')
+      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 1')
     end
   end
 
@@ -29,7 +37,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     before { lead.message = 'a_loja_que_vai_te_atender_fica_na_av._ibirapuera,_2.453_-_moema: sim' }
 
     it 'returns source name' do
-      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema')
+      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 1')
     end
   end
 
@@ -37,7 +45,15 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._ibirapuera,_3000_-_moema' }
 
     it 'returns source name' do
-      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema')
+      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 2')
+    end
+  end
+
+  context 'when message contains "av._ibirapuera,_3399_-_moema"' do
+    before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._ibirapuera,_3399_-_moema' }
+
+    it 'returns source name' do
+      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 3')
     end
   end
 
@@ -94,6 +110,16 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
 
     it 'return source name' do
       expect(described_class.switch_source(lead)).to eq('')
+    end
+  end
+
+  context 'when store name come in the field product name' do
+    context 'when message contains "av._corifeu_de_azevedo_marques,_549_-_butantã"' do
+      before { product.name = 'LOJA CORIFEU - Form Brodway - 012022' }
+
+      it 'returns source name' do
+        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Corifeu')
+      end
     end
   end
 end
