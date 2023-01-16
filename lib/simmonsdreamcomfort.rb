@@ -10,6 +10,7 @@ module Simmonsdreamcomfort
     class << self
       def switch_source(lead)
         @message = lead.message || ''
+        @product_name = lead.product.name.downcase || ''
         source_name = lead.source ? lead.source.name : ''
 
         return "#{source_name} - Moema 1" if moema_1?
@@ -49,7 +50,7 @@ module Simmonsdreamcomfort
       end
 
       def corifeu?
-        @message['av._corifeu_de_azevedo_marques']
+        @message['av._corifeu_de_azevedo_marques'] || @product_name['corifeu']
       end
 
       def braz_leme?

@@ -10,9 +10,17 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     source
   end
 
+  let(:product) do
+    product = OpenStruct.new
+    product.name = ''
+
+    product
+  end
+
   let(:lead) do
     lead = OpenStruct.new
     lead.source = source
+    lead.product = product
 
     lead
   end
@@ -102,6 +110,16 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
 
     it 'return source name' do
       expect(described_class.switch_source(lead)).to eq('')
+    end
+  end
+
+  context 'when store name come in the field product name' do
+    context 'when message contains "av._corifeu_de_azevedo_marques,_549_-_butantã"' do
+      before { product.name = 'LOJA CORIFEU - Form Brodway - 012022' }
+
+      it 'returns source name' do
+        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Corifeu')
+      end
     end
   end
 end
