@@ -41,8 +41,16 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     end
   end
 
-  context 'when message contains "av._ibirapuera,_2453._moema"' do
+  context 'when message contains "av._corifeu_de_azevedo_marques,_549_-_butantã"' do
     before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._corifeu_de_azevedo_marques,_549_-_butantã' }
+
+    it 'returns source name' do
+      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Corifeu')
+    end
+  end
+
+  context 'when message contains "av._corifeu_de_azevedo_marques,_547_-_butantã"' do
+    before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._corifeu_de_azevedo_marques,_547_-_butantã' }
 
     it 'returns source name' do
       expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Corifeu')
@@ -57,7 +65,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     end
   end
 
-  context 'when message contains "av._braz_leme,_757_-_santana"' do
+  context 'when message contains "Av. Braz Leme, 757 - Santana, São Paulo - SP"' do
     before { lead.message = 'conditional_question_1: Santana; conditional_question_2: Av. Braz Leme, 757 - Santana, São Paulo - SP' }
 
     it 'returns source name' do
@@ -65,7 +73,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     end
   end
 
-  context 'when message contains sumare' do
+  context 'when message contains "av_sumare,_1101_- dream_comfort"' do
     before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: perdizes_-_av_sumare,_1101_- dream_comfort' }
 
     it 'return source name' do

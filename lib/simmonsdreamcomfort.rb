@@ -36,7 +36,7 @@ module Simmonsdreamcomfort
       end
 
       def corifeu?
-        @message['av._corifeu_de_azevedo_marques,_549_-_butantã']
+        @message['av._corifeu_de_azevedo_marques']
       end
 
       def braz_leme?
