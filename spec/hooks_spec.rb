@@ -122,4 +122,54 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       end
     end
   end
+
+  context 'When lead does not go through Simmons' do
+    context 'when message contains "Butanta - Av Corifeu de Azevedo Marques, 547 - Dream Confort"' do
+      before { lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Butanta - Av Corifeu de Azevedo Marques, 547 - Dream Confort' }
+
+      it 'returns source - Corifeu' do
+        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Corifeu')
+      end
+    end
+
+    context 'when message contains "Moema - Av Ibirapuera, 2453 - Dream Confort"' do
+      before { lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Moema - Av Ibirapuera, 2453 - Dream Confort' }
+
+      it 'returns source - Moema 1' do
+        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 1')
+      end
+    end
+
+    context 'when message contains "Moema - Av Ibirapuera, 3000 - Dream Confort"' do
+      before { lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Moema - Av Ibirapuera, 3000 - Dream Confort' }
+
+      it 'returns source - Moema 1' do
+        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 2')
+      end
+    end
+
+    context 'when message contains "Moema - Av Ibirapuera, 3399 - DreamComfort Colchoes"' do
+      before { lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Moema - Av Ibirapuera, 3399 - DreamComfort Colchoes' }
+
+      it 'returns source - Moema 1' do
+        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 3')
+      end
+    end
+
+    context 'when message contains "Santana - Av Braz Leme, 757 - Dream Confort"' do
+      before { lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Santana - Av Braz Leme, 757 - Dream Confort' }
+
+      it 'returns source - Moema 1' do
+        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Braz Leme')
+      end
+    end
+
+    context 'when message contains "Perdizes - Av Sumare, 1101 - DreamComfort Colchoes"' do
+      before { lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Perdizes - Av Sumare, 1101 - DreamComfort Colchoes' }
+
+      it 'returns source - Moema 1' do
+        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Sumaré')
+      end
+    end
+  end
 end
