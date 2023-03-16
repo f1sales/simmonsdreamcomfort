@@ -11,7 +11,7 @@ module Simmonsdreamcomfort
       def switch_source(lead)
         @message = lead.message&.gsub('.', '') || ''
         @product_name = lead.product.name.downcase || ''
-        source_name = lead.source ? lead.source.name : ''
+        source_name = lead.source&.name || ''
 
         return "#{source_name} - Moema 1" if moema_1?
 
@@ -24,6 +24,8 @@ module Simmonsdreamcomfort
         return "#{source_name} - Braz Leme" if braz_leme?
 
         return "#{source_name} - Sumaré" if sumare?
+
+        return "#{source_name} - Morumbi" if morumbi?
 
         source_name
       end
@@ -61,6 +63,10 @@ module Simmonsdreamcomfort
 
       def sumare?
         @message['av_sumare'] || @message['Av Sumare, 1101']
+      end
+
+      def morumbi?
+        @message['av_avenida_morumbi,_6930']
       end
     end
   end
