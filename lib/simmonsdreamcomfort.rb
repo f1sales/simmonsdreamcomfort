@@ -9,10 +9,7 @@ module Simmonsdreamcomfort
   class F1SalesCustom::Hooks::Lead
     class << self
       def switch_source(lead)
-        @message = lead.message&.gsub('.', '') || ''
-        @product_name = lead.product.name.downcase || ''
-        source_name = lead.source&.name || ''
-
+        @lead = lead
         return "#{source_name} - Moema 1" if moema_1?
 
         return "#{source_name} - Moema 2" if moema_2?
@@ -30,16 +27,28 @@ module Simmonsdreamcomfort
         source_name
       end
 
+      def source_name
+        @lead.source&.name || ''
+      end
+
+      def product_name
+        @lead.product.name.downcase || ''
+      end
+
+      def message
+        @lead.message&.gsub('.', '') || ''
+      end
+
       def moema_1?
-        @message[moema_address[0]] || @message[moema_address[1]]
+        message[moema_address[0]] || message[moema_address[1]] || product_name['moema']
       end
 
       def moema_2?
-        @message[moema_address[2]] || @message[moema_address[3]]
+        message[moema_address[2]] || message[moema_address[3]]
       end
 
       def moema_3?
-        @message[moema_address[4]] || @message[moema_address[5]]
+        message[moema_address[4]] || message[moema_address[5]]
       end
 
       def moema_address
@@ -54,19 +63,19 @@ module Simmonsdreamcomfort
       end
 
       def corifeu?
-        @message['av_corifeu_de_azevedo_marques'] || @product_name['corifeu'] || @message['Av Corifeu de Azevedo Marques']
+        message['av_corifeu_de_azevedo_marques'] || product_name['corifeu'] || message['Av Corifeu de Azevedo Marques']
       end
 
       def braz_leme?
-        @message['av_braz_leme,_757_-_santana'] || @message['Av Braz Leme, 757']
+        message['av_braz_leme,_757_-_santana'] || message['Av Braz Leme, 757']
       end
 
       def sumare?
-        @message['av_sumare'] || @message['Av Sumare, 1101']
+        message['av_sumare'] || message['Av Sumare, 1101'] || product_name['sumar']
       end
 
       def morumbi?
-        @message['av_avenida_morumbi,_6930']
+        message['av_avenida_morumbi,_6930'] || product_name['morumbi']
       end
     end
   end

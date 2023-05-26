@@ -82,7 +82,9 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
   end
 
   context 'when message contains "Av. Braz Leme, 757 - Santana, São Paulo - SP"' do
-    before { lead.message = 'conditional_question_1: Santana; conditional_question_2: Av. Braz Leme, 757 - Santana, São Paulo - SP' }
+    before do
+      lead.message = 'conditional_question_1: Santana; conditional_question_2: Av. Braz Leme, 757 - Santana, São Paulo - SP'
+    end
 
     it 'returns source name' do
       expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Braz Leme')
@@ -122,18 +124,44 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
   end
 
   context 'when store name come in the field product name' do
-    context 'when message contains "av._corifeu_de_azevedo_marques,_549_-_butantã"' do
+    context 'when product contains LOJA CORIFEU' do
       before { product.name = 'LOJA CORIFEU - Form Brodway - 012022' }
 
       it 'returns source name' do
         expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Corifeu')
       end
     end
+
+    context 'when product contains Morumbi' do
+      before { product.name = 'Loja Morumbi - Broadway - 24.05' }
+
+      it 'returns source name' do
+        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Morumbi')
+      end
+    end
+
+    context 'when product contains Loja Moema' do
+      before { product.name = 'Loja Moema 2453- Brodway - 24.05' }
+
+      it 'returns source name' do
+        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 1')
+      end
+    end
+
+    context 'when product contains Loja Sumaré' do
+      before { product.name = 'Loja Sumaré - Brodway - 24.05' }
+
+      it 'returns source name' do
+        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Sumaré')
+      end
+    end
   end
 
   context 'When lead does not go through Simmons' do
     context 'when message contains "Butanta - Av Corifeu de Azevedo Marques, 547 - Dream Confort"' do
-      before { lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Butanta - Av Corifeu de Azevedo Marques, 547 - Dream Confort' }
+      before do
+        lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Butanta - Av Corifeu de Azevedo Marques, 547 - Dream Confort'
+      end
 
       it 'returns source - Corifeu' do
         expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Corifeu')
@@ -141,7 +169,9 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     end
 
     context 'when message contains "Moema - Av Ibirapuera, 2453 - Dream Confort"' do
-      before { lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Moema - Av Ibirapuera, 2453 - Dream Confort' }
+      before do
+        lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Moema - Av Ibirapuera, 2453 - Dream Confort'
+      end
 
       it 'returns source - Moema 1' do
         expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 1')
@@ -149,7 +179,9 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     end
 
     context 'when message contains "Moema - Av Ibirapuera, 3000 - Dream Confort"' do
-      before { lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Moema - Av Ibirapuera, 3000 - Dream Confort' }
+      before do
+        lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Moema - Av Ibirapuera, 3000 - Dream Confort'
+      end
 
       it 'returns source - Moema 1' do
         expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 2')
@@ -157,7 +189,9 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     end
 
     context 'when message contains "Moema - Av Ibirapuera, 3399 - DreamComfort Colchoes"' do
-      before { lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Moema - Av Ibirapuera, 3399 - DreamComfort Colchoes' }
+      before do
+        lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Moema - Av Ibirapuera, 3399 - DreamComfort Colchoes'
+      end
 
       it 'returns source - Moema 1' do
         expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 3')
@@ -165,7 +199,9 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     end
 
     context 'when message contains "Santana - Av Braz Leme, 757 - Dream Confort"' do
-      before { lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Santana - Av Braz Leme, 757 - Dream Confort' }
+      before do
+        lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Santana - Av Braz Leme, 757 - Dream Confort'
+      end
 
       it 'returns source - Moema 1' do
         expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Braz Leme')
@@ -173,7 +209,9 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     end
 
     context 'when message contains "Perdizes - Av Sumare, 1101 - DreamComfort Colchoes"' do
-      before { lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Perdizes - Av Sumare, 1101 - DreamComfort Colchoes' }
+      before do
+        lead.message = 'conditional_question_1: São Paulo; conditional_question_2: São Paulo; conditional_question_3: Perdizes - Av Sumare, 1101 - DreamComfort Colchoes'
+      end
 
       it 'returns source - Moema 1' do
         expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Sumaré')
