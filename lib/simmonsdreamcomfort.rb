@@ -40,7 +40,7 @@ module Simmonsdreamcomfort
       end
 
       def moema_1?
-        message[moema_address[0]] || message[moema_address[1]]
+        message[moema_address[0]] || message[moema_address[1]] || product_name['moema']
       end
 
       def moema_2?
@@ -71,11 +71,11 @@ module Simmonsdreamcomfort
       end
 
       def sumare?
-        message['av_sumare'] || message['Av Sumare, 1101']
+        message['av_sumare'] || message['Av Sumare, 1101'] || product_name['sumar']
       end
 
       def morumbi?
-        message['av_avenida_morumbi,_6930']
+        message['av_avenida_morumbi,_6930'] || product_name['morumbi']
       end
     end
   end
