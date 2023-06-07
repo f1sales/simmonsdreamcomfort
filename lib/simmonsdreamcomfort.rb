@@ -24,6 +24,8 @@ module Simmonsdreamcomfort
 
         return "#{source_name} - Morumbi" if morumbi?
 
+        return "#{source_name} - Ibirapuera" if product_name['ibirapuera']
+
         source_name
       end
 

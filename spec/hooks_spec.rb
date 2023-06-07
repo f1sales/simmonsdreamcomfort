@@ -217,5 +217,15 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
         expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Sumaré')
       end
     end
+
+    context 'when store information comes in product' do
+      before do
+        product.name = 'LOJA I.IBIRAPUERA - 2453 - Broadway - 06.06.23'
+      end
+
+      it 'returns Source - Ibirapuera' do
+        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Ibirapuera')
+      end
+    end
   end
 end
