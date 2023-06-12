@@ -26,6 +26,8 @@ module Simmonsdreamcomfort
 
         return "#{source_name} - Ibirapuera" if product_name['ibirapuera']
 
+        return "#{source_name} - Indianópolis" if product_name['indian']
+
         source_name
       end
 
