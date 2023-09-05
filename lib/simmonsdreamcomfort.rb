@@ -35,46 +35,40 @@ module Simmonsdreamcomfort
       end
 
       def message
-        @lead.message&.gsub('.', '') || ''
+        message_down = @lead.message&.downcase || ''
+        message_down.gsub(/[^a-zA-Z\d]/, '')
       end
 
       def moema_1?
-        message[moema_address[0]] || message[moema_address[1]] || product_name['moema']
+        message[moema_address[0]] || product_name['moema']
       end
 
       def moema_2?
-        message[moema_address[2]] || message[moema_address[3]]
+        message[moema_address[1]]
       end
 
       def moema_3?
-        message[moema_address[4]] || message[moema_address[5]]
+        message[moema_address[2]]
       end
 
       def moema_address
-        [
-          'av_ibirapuera,_2453_-_moema',
-          'Av Ibirapuera, 2453',
-          'av_ibirapuera,_3000_-_moema',
-          'Av Ibirapuera, 3000',
-          'av_ibirapuera,_3399_-_moema',
-          'Av Ibirapuera, 3399'
-        ]
+        %w[avibirapuera2453 avibirapuera3000 avibirapuera3399]
       end
 
       def corifeu?
-        message['av_corifeu_de_azevedo_marques'] || product_name['corifeu'] || message['Av Corifeu de Azevedo Marques']
+        message['avcorifeudeazevedomarques'] || product_name['corifeu']
       end
 
       def braz_leme?
-        message['av_braz_leme,_757_-_santana'] || message['Av Braz Leme, 757']
+        message['avbrazleme757']
       end
 
       def sumare?
-        message['av_sumare'] || message['Av Sumare, 1101'] || product_name['sumar']
+        message['avsumare'] || product_name['sumar']
       end
 
       def morumbi?
-        message['av_avenida_morumbi,_6930'] || product_name['morumbi']
+        message['avavenidamorumbi'] || product_name['morumbi']
       end
 
       def ibirapuera?
