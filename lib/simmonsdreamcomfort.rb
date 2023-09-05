@@ -11,25 +11,20 @@ module Simmonsdreamcomfort
       def switch_source(lead)
         @lead = lead
         return "#{source_name} - Moema 1" if moema_1?
-
         return "#{source_name} - Moema 2" if moema_2?
-
         return "#{source_name} - Moema 3" if moema_3?
-
         return "#{source_name} - Corifeu" if corifeu?
-
         return "#{source_name} - Braz Leme" if braz_leme?
-
         return "#{source_name} - Sumaré" if sumare?
-
         return "#{source_name} - Morumbi" if morumbi?
-
-        return "#{source_name} - Ibirapuera" if product_name['ibirapuera']
-
-        return "#{source_name} - Indianópolis" if product_name['indian']
+        return "#{source_name} - Ibirapuera" if ibirapuera?
+        return "#{source_name} - Indianópolis" if indianopolis?
+        return "#{source_name} - Alphaville" if alphaville?
 
         source_name
       end
+
+      private
 
       def source_name
         @lead.source&.name || ''
@@ -80,6 +75,18 @@ module Simmonsdreamcomfort
 
       def morumbi?
         message['av_avenida_morumbi,_6930'] || product_name['morumbi']
+      end
+
+      def ibirapuera?
+        product_name['ibirapuera']
+      end
+
+      def indianopolis?
+        product_name['indian']
+      end
+
+      def alphaville?
+        product_name['alphavi']
       end
     end
   end
