@@ -8,13 +8,24 @@ module Simmonsdreamcomfort
 
   class F1SalesCustom::Hooks::Lead
     class << self
+      SOURCE_PATTERNS = {
+        'Moema 1' => ['avibirapuera2453'],
+        'Moema 2' => ['avibirapuera3000'],
+        'Moema 3' => ['avibirapuera3399'],
+        'Corifeu' => ['avcorifeudeazevedomarques'],
+        'Braz Leme' => ['avbrazleme757'],
+        'Sumaré' => ['avsumare'],
+        'Morumbi' => ['avavenidamorumbi'],
+      }.freeze
+
       def switch_source(lead)
         @lead = lead
+
+        detected_source_message = detect_source_message
+        return "#{source_name} - #{detected_source_message}" if detected_source_message
+
         return "#{source_name} - Moema 1" if moema_1?
-        return "#{source_name} - Moema 2" if moema_2?
-        return "#{source_name} - Moema 3" if moema_3?
         return "#{source_name} - Corifeu" if corifeu?
-        return "#{source_name} - Braz Leme" if braz_leme?
         return "#{source_name} - Sumaré" if sumare?
         return "#{source_name} - Morumbi" if morumbi?
         return "#{source_name} - Ibirapuera" if ibirapuera?
@@ -25,6 +36,15 @@ module Simmonsdreamcomfort
       end
 
       private
+
+      def detect_source_message
+        SOURCE_PATTERNS.each do |source_name, patterns|
+          return source_name if patterns.any? do |pattern|
+            message[pattern]
+          end
+        end
+        nil
+      end
 
       def source_name
         @lead.source&.name || ''
@@ -40,35 +60,19 @@ module Simmonsdreamcomfort
       end
 
       def moema_1?
-        message[moema_address[0]] || product_name['moema']
-      end
-
-      def moema_2?
-        message[moema_address[1]]
-      end
-
-      def moema_3?
-        message[moema_address[2]]
-      end
-
-      def moema_address
-        %w[avibirapuera2453 avibirapuera3000 avibirapuera3399]
+        product_name['moema']
       end
 
       def corifeu?
-        message['avcorifeudeazevedomarques'] || product_name['corifeu']
-      end
-
-      def braz_leme?
-        message['avbrazleme757']
+        product_name['corifeu']
       end
 
       def sumare?
-        message['avsumare'] || product_name['sumar']
+        product_name['sumar']
       end
 
       def morumbi?
-        message['avavenidamorumbi'] || product_name['morumbi']
+        product_name['morumbi']
       end
 
       def ibirapuera?
