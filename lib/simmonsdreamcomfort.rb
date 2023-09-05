@@ -8,27 +8,52 @@ module Simmonsdreamcomfort
 
   class F1SalesCustom::Hooks::Lead
     class << self
+      SOURCE_PATTERNS_MESSAGE = {
+        'Moema 1' => ['avibirapuera2453'],
+        'Moema 2' => ['avibirapuera3000'],
+        'Moema 3' => ['avibirapuera3399'],
+        'Corifeu' => ['avcorifeudeazevedomarques'],
+        'Braz Leme' => ['avbrazleme757'],
+        'Sumaré' => ['avsumare'],
+        'Morumbi' => ['avavenidamorumbi']
+      }.freeze
+
+      SOURCE_PATTERNS_PRODUCT = {
+        'Moema 1' => ['moema'],
+        'Corifeu' => ['corifeu'],
+        'Sumaré' => ['sumar'],
+        'Morumbi' => ['morumbi'],
+        'Ibirapuera' => ['ibirapuera'],
+        'Indianópolis' => ['indian'],
+        'Alphaville' => ['alphavi']
+      }.freeze
+
       def switch_source(lead)
         @lead = lead
-        return "#{source_name} - Moema 1" if moema_1?
 
-        return "#{source_name} - Moema 2" if moema_2?
+        detected_source_message = detect_source_message
+        return "#{source_name} - #{detected_source_message}" if detected_source_message
 
-        return "#{source_name} - Moema 3" if moema_3?
-
-        return "#{source_name} - Corifeu" if corifeu?
-
-        return "#{source_name} - Braz Leme" if braz_leme?
-
-        return "#{source_name} - Sumaré" if sumare?
-
-        return "#{source_name} - Morumbi" if morumbi?
-
-        return "#{source_name} - Ibirapuera" if product_name['ibirapuera']
-
-        return "#{source_name} - Indianópolis" if product_name['indian']
+        detected_source_product = detect_source_product
+        return "#{source_name} - #{detected_source_product}" if detected_source_product
 
         source_name
+      end
+
+      private
+
+      def detect_source_message
+        SOURCE_PATTERNS_MESSAGE.each do |source_name, patterns|
+          return source_name if patterns.any? { |pattern| message[pattern] }
+        end
+        nil
+      end
+
+      def detect_source_product
+        SOURCE_PATTERNS_PRODUCT.each do |source_name, patterns|
+          return source_name if patterns.any? { |pattern| product_name[pattern] }
+        end
+        nil
       end
 
       def source_name
@@ -40,46 +65,8 @@ module Simmonsdreamcomfort
       end
 
       def message
-        @lead.message&.gsub('.', '') || ''
-      end
-
-      def moema_1?
-        message[moema_address[0]] || message[moema_address[1]] || product_name['moema']
-      end
-
-      def moema_2?
-        message[moema_address[2]] || message[moema_address[3]]
-      end
-
-      def moema_3?
-        message[moema_address[4]] || message[moema_address[5]]
-      end
-
-      def moema_address
-        [
-          'av_ibirapuera,_2453_-_moema',
-          'Av Ibirapuera, 2453',
-          'av_ibirapuera,_3000_-_moema',
-          'Av Ibirapuera, 3000',
-          'av_ibirapuera,_3399_-_moema',
-          'Av Ibirapuera, 3399'
-        ]
-      end
-
-      def corifeu?
-        message['av_corifeu_de_azevedo_marques'] || product_name['corifeu'] || message['Av Corifeu de Azevedo Marques']
-      end
-
-      def braz_leme?
-        message['av_braz_leme,_757_-_santana'] || message['Av Braz Leme, 757']
-      end
-
-      def sumare?
-        message['av_sumare'] || message['Av Sumare, 1101'] || product_name['sumar']
-      end
-
-      def morumbi?
-        message['av_avenida_morumbi,_6930'] || product_name['morumbi']
+        message_down = @lead.message&.downcase || ''
+        message_down.gsub(/[^a-zA-Z\d]/, '')
       end
     end
   end
