@@ -25,7 +25,8 @@ module Simmonsdreamcomfort
         'Morumbi' => ['morumbi'],
         'Ibirapuera' => ['ibirapuera'],
         'Indianópolis' => ['indian'],
-        'Alphaville' => ['alphavi']
+        'Alphaville' => ['alphavi'],
+        'Ipiranga' => ['ipiranga']
       }.freeze
 
       def switch_source(lead)
