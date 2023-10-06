@@ -163,6 +163,14 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
         expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Alphaville')
       end
     end
+
+    context 'when product contains Loja Ipiranga' do
+      before { product.name = 'Loja Ipiranga - Simmons 60+ 5 % off fds - 03.10.23' }
+
+      it 'returns source name' do
+        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Ipiranga')
+      end
+    end
   end
 
   context 'When lead does not go through Simmons' do
