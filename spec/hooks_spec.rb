@@ -21,15 +21,32 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     lead = OpenStruct.new
     lead.source = source
     lead.product = product
+    lead.customer = customer
 
     lead
   end
+
+  let(:customer) do
+    customer = OpenStruct.new
+    customer.utm = utm
+
+    customer
+  end
+
+  let(:utm) do
+    utm = OpenStruct.new
+    utm.medium = ''
+
+    utm
+  end
+
+  let(:switch_source) { described_class.switch_source(lead) }
 
   context 'when message contains "av._ibirapuera,_2453_-_moema"' do
     before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._ibirapuera,_2453_-_moema' }
 
     it 'returns source name' do
-      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 1')
+      expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Moema 1')
     end
   end
 
@@ -37,7 +54,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     before { lead.message = 'a_loja_que_vai_te_atender_fica_na_av._ibirapuera,_2.453_-_moema: sim' }
 
     it 'returns source name' do
-      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 1')
+      expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Moema 1')
     end
   end
 
@@ -45,7 +62,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._ibirapuera,_3000_-_moema' }
 
     it 'returns source name' do
-      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 2')
+      expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Moema 2')
     end
   end
 
@@ -53,7 +70,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._ibirapuera,_3399_-_moema' }
 
     it 'returns source name' do
-      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 3')
+      expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Moema 3')
     end
   end
 
@@ -61,7 +78,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._corifeu_de_azevedo_marques,_549_-_butantã' }
 
     it 'returns source name' do
-      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Corifeu')
+      expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Corifeu')
     end
   end
 
@@ -69,7 +86,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._corifeu_de_azevedo_marques,_547_-_butantã' }
 
     it 'returns source name' do
-      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Corifeu')
+      expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Corifeu')
     end
   end
 
@@ -77,7 +94,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._braz_leme,_757_-_santana' }
 
     it 'returns source name' do
-      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Braz Leme')
+      expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Braz Leme')
     end
   end
 
@@ -87,7 +104,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     end
 
     it 'returns source name' do
-      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Braz Leme')
+      expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Braz Leme')
     end
   end
 
@@ -95,7 +112,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: perdizes_-_av_sumare,_1101_- dream_comfort' }
 
     it 'return source name' do
-      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Sumaré')
+      expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Sumaré')
     end
   end
 
@@ -103,7 +120,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     before { lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: morumbi_-_av_avenida_morumbi,_6930' }
 
     it 'return source name' do
-      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Morumbi')
+      expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Morumbi')
     end
   end
 
@@ -111,7 +128,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     before { lead.message = nil }
 
     it 'returns source name' do
-      expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort')
+      expect(switch_source).to eq('Facebook - Simmons Dream Comfort')
     end
   end
 
@@ -119,7 +136,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
     before { lead.source = nil }
 
     it 'return source name' do
-      expect(described_class.switch_source(lead)).to eq('')
+      expect(switch_source).to eq('')
     end
   end
 
@@ -128,7 +145,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       before { product.name = 'LOJA CORIFEU - Form Brodway - 012022' }
 
       it 'returns source name' do
-        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Corifeu')
+        expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Corifeu')
       end
     end
 
@@ -136,7 +153,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       before { product.name = 'Loja Morumbi - Broadway - 24.05' }
 
       it 'returns source name' do
-        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Morumbi')
+        expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Morumbi')
       end
     end
 
@@ -144,7 +161,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       before { product.name = 'Loja Moema 2453- Brodway - 24.05' }
 
       it 'returns source name' do
-        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 1')
+        expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Moema 1')
       end
     end
 
@@ -152,7 +169,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       before { product.name = 'Loja Sumaré - Brodway - 24.05' }
 
       it 'returns source name' do
-        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Sumaré')
+        expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Sumaré')
       end
     end
 
@@ -160,7 +177,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       before { product.name = 'Loja Alphaville - Form Reels Evolution - 29.08' }
 
       it 'returns source name' do
-        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Alphaville')
+        expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Alphaville')
       end
     end
 
@@ -168,7 +185,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       before { product.name = 'Loja Ipiranga - Simmons 60+ 5 % off fds - 03.10.23' }
 
       it 'returns source name' do
-        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Ipiranga')
+        expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Ipiranga')
       end
     end
   end
@@ -180,7 +197,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       end
 
       it 'returns source - Corifeu' do
-        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Corifeu')
+        expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Corifeu')
       end
     end
 
@@ -190,7 +207,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       end
 
       it 'returns source - Moema 1' do
-        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 1')
+        expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Moema 1')
       end
     end
 
@@ -200,7 +217,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       end
 
       it 'returns source - Moema 1' do
-        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 2')
+        expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Moema 2')
       end
     end
 
@@ -210,7 +227,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       end
 
       it 'returns source - Moema 1' do
-        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Moema 3')
+        expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Moema 3')
       end
     end
 
@@ -220,7 +237,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       end
 
       it 'returns source - Moema 1' do
-        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Braz Leme')
+        expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Braz Leme')
       end
     end
 
@@ -230,7 +247,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       end
 
       it 'returns source - Moema 1' do
-        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Sumaré')
+        expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Sumaré')
       end
     end
 
@@ -240,7 +257,7 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       end
 
       it 'returns Source - Ibirapuera' do
-        expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Ibirapuera')
+        expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Ibirapuera')
       end
 
       context 'when is indianapolis' do
@@ -249,8 +266,26 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
         end
 
         it 'returns Source - Ibirapuera' do
-          expect(described_class.switch_source(lead)).to eq('Facebook - Simmons Dream Comfort - Indianópolis')
+          expect(switch_source).to eq('Facebook - Simmons Dream Comfort - Indianópolis')
         end
+      end
+    end
+  end
+
+  context 'when customer contains "4art"' do
+    before { utm.medium = '4art' }
+
+    it 'returns Source - 4Art' do
+      expect(switch_source).to eq('Facebook - Simmons Dream Comfort - 4Art')
+    end
+
+    context 'when message contains "av._ibirapuera,_2453_-_moema"' do
+      before do
+        lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._ibirapuera,_2453_-_moema'
+      end
+
+      it 'returns source name' do
+        expect(switch_source).to eq('Facebook - Simmons Dream Comfort - 4Art')
       end
     end
   end
