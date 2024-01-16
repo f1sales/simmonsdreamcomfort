@@ -28,16 +28,9 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
 
   let(:customer) do
     customer = OpenStruct.new
-    customer.utm = utm
+    customer.utm = nil
 
     customer
-  end
-
-  let(:utm) do
-    utm = OpenStruct.new
-    utm.medium = ''
-
-    utm
   end
 
   let(:switch_source) { described_class.switch_source(lead) }
@@ -273,7 +266,14 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
   end
 
   context 'when customer contains "4art"' do
-    before { utm.medium = '4art' }
+    before { customer.utm = utm }
+
+    let(:utm) do
+      utm = OpenStruct.new
+      utm.medium = '4art'
+
+      utm
+    end
 
     it 'returns Source - 4Art' do
       expect(switch_source).to eq('Facebook - Simmons Dream Comfort - 4Art')
