@@ -73,7 +73,7 @@ module Simmonsdreamcomfort
       end
 
       def fourart_utm?
-        @lead.customer.utm.medium == '4art'
+        @lead.customer.utm&.medium == '4art'
       end
     end
   end
