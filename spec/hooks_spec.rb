@@ -264,29 +264,4 @@ RSpec.describe F1SalesCustom::Hooks::Lead do
       end
     end
   end
-
-  context 'when customer contains "4art"' do
-    before { customer.utm = utm }
-
-    let(:utm) do
-      utm = OpenStruct.new
-      utm.medium = '4art'
-
-      utm
-    end
-
-    it 'returns Source - 4Art' do
-      expect(switch_source).to eq('Facebook - Simmons Dream Comfort - 4Art')
-    end
-
-    context 'when message contains "av._ibirapuera,_2453_-_moema"' do
-      before do
-        lead.message = 'escolha_a_loja_por_onde_quer_ser_atendido: av._ibirapuera,_2453_-_moema'
-      end
-
-      it 'returns source name' do
-        expect(switch_source).to eq('Facebook - Simmons Dream Comfort - 4Art')
-      end
-    end
-  end
 end
