@@ -32,8 +32,6 @@ module Simmonsdreamcomfort
       def switch_source(lead)
         @lead = lead
 
-        return "#{source_name} - 4Art" if fourart_utm?
-
         detected_source_message = detect_source_message
         return "#{source_name} - #{detected_source_message}" if detected_source_message
 
@@ -70,10 +68,6 @@ module Simmonsdreamcomfort
       def message
         message_down = @lead.message&.downcase || ''
         message_down.gsub(/[^a-zA-Z\d]/, '')
-      end
-
-      def fourart_utm?
-        @lead.customer.utm&.medium == '4art'
       end
     end
   end
