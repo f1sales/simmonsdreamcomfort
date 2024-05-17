@@ -31,14 +31,23 @@ module Simmonsdreamcomfort
 
       def switch_source(lead)
         @lead = lead
+        name = source_name
 
         detected_source_message = detect_source_message
-        return "#{source_name} - #{detected_source_message}" if detected_source_message
+        return "#{name} - #{detected_source_message}" if detected_source_message
 
-        detected_source_product = detect_source_product
-        return "#{source_name} - #{detected_source_product}" if detected_source_product
+        location = detect_source_product
+        address = product_name.split(' - ').count > 1 ? product_name.split(' - ')[1] : nil
 
-        source_name
+        return "#{name} - #{location} - #{address}" if location && address
+
+        if location
+          "#{name} - #{location}"
+        elsif address
+          "#{name} - #{address}"
+        else
+          name
+        end
       end
 
       private
